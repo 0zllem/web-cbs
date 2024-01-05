@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>İstanbul Devlet Üniversiteleri Haritası</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      #map {
+        height: 500px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar bg-primary">
+      <div class="container-fluid">
+        <a class="navbar-brand text-white" href="#">
+          <i
+            width="30"
+            height="24"
+            class="bi bi-globe-central-south-asia d-inline-block align-text-top"
+          ></i>
+          Web CBS
+        </a>
+      </div>
+    </nav>
+
+    <main class="hstack mw-100 align-items-stretch">
+      <div id="map" class="flex-grow-1 m-2"></div>
+
+      <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark">
+        <span class="fs-4 mb-3 mb-md-0 me-md-auto text-white"
+          >Üniversiteler</span
+        >
+
+        <hr />
+        <ul class="nav nav-pills flex-column mb-auto" id="universities"></ul>
+      </div>
+    </main>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+      var map = L.map("map").setView([41.0082, 28.9784], 12); // İstanbul koordinatları
+
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "© OpenStreetMap contributors",
+      }).addTo(map);
+
+      // İstanbul'daki devlet üniversitelerinin koordinatları, isimleri ve öznitelikleri
+      var universities = [
+        {
+          name: "İstanbul Üniversitesi",
+          location: [41.01257920661146, 28.963962519878947],
+          area: "731698",
+          studentCount: "88500",
+          departmentCount: "125",
+          instructorCount: "3515",
+          facultyCount: "15",
+        },
+        {
+          name: "İstanbul Üniversitesi Cerrahpaşa",
+          location: [41.00486501675448, 28.941486228835913],
+          area: "616000",
+          studentCount: "32499",
+          departmentCount: "40",
+          instructorCount: "2178",
+          facultyCount: "8",
+        },
+        {
+          name: "İstanbul Teknik Üniversitesi (İTü)",
+          location: [41.104772720612004, 29.02725454409611],
+          area: "160000",
+          studentCount: "40000",
+          departmentCount: "285",
+          instructorCount: "20376",
+          facultyCount: "13",
+        },
+        {
+          name: "Boğaziçi Üniversitesi",
+          location: [41.0862877353548, 29.044332607084925],
+          area: "78585",
+          studentCount: "16653",
+          departmentCount: "36",
+          instructorCount: "2122",
+          facultyCount: "7",
+        },
+        {
+          name: "Mimar Sinan Güzel Sanatlar Üniversitesi (MSGÜ)",
+          location: [41.0622113013105, 29.010846915342313],
+          area: "24000",
+          studentCount: "18891",
+          departmentCount: "11",
+          instructorCount: "996",
+          facultyCount: "3",
+        },
+        {
+          name: "Marmara Üniversitesi",
+          location: [41.0622113013105, 29.010846915342313],
+          area: "149281",
+          studentCount: "77823",
+          departmentCount: "153",
+          instructorCount: "2775",
+          facultyCount: "21",
+        },
+        {
+          name: "Yıldız Teknik Üniversitesi (YTü)",
+          location: [41.02608205340016, 28.88957134324457],
+          area: "4000506",
+          studentCount: "36000",
+          departmentCount: "44",
+          instructorCount: "1697",
+          facultyCount: "11",
+        },
+        {
+          name: "Galatasaray Üniversitesi",
+          location: [41.04596426215073, 29.020005088589414],
+          area: "24700",
+          studentCount: "4365",
+          departmentCount: "12",
+          instructorCount: "550",
+          facultyCount: "5",
+        },
+        {
+          name: "Türk-Alman Üniversitesi",
+          location: [41.143494745273955, 29.100700499998794],
+          area: "120000",
+          studentCount: "2362",
+          departmentCount: "16",
+          instructorCount: "1500",
+          facultyCount: "5",
+        },
+        {
+          name: "İstanbul Medeniyet Üniversitesi",
+          location: [41.0035, 29.0395],
+          area: "24500",
+          studentCount: "13631",
+          departmentCount: "41",
+          instructorCount: "1200",
+          facultyCount: "11",
+        },
+        {
+          name: "Sağlık Bilimleri Üniversitesi",
+          location: [41.00428457329946, 29.019647818158887],
+          area: "53000",
+          studentCount: "19732",
+          departmentCount: "8",
+          instructorCount: "4013",
+          facultyCount: "10",
+        },
+      ];
+
+      // Üniversiteleri haritaya ekleyin
+      for (var i = 0; i < universities.length; i++) {
+        var university = universities[i];
+        var popupContent = `
+            <strong>${university.name}</strong><br>
+            Alan: ${university.area}<br>
+            Öğrenci Sayısı: ${university.studentCount}<br>
+            Departman Sayısı: ${university.departmentCount}<br>
+            Öğretim Görevlisi Sayısı: ${university.instructorCount}<br>
+            Fakülte Sayısı: ${university.facultyCount}
+        `;
+        let marker = L.marker(university.location);
+
+        var universitiesList = document.getElementById("universities");
+        var listItem = document.createElement("li");
+        listItem.classList.add("nav-item");
+        listItem.classList.add("my-2");
+        var link = document.createElement("a");
+        link.classList.add("nav-link");
+        link.classList.add("active");
+        link.href = "#";
+        link.textContent = university.name;
+        listItem.appendChild(link);
+        universitiesList.appendChild(listItem);
+        link.onclick = function () {
+          marker.fire("click");
+        };
+
+        marker.addTo(map).bindPopup(popupContent);
+      }
+    </script>
+  </body>
+</html>
